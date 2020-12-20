@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+    	<link rel="stylesheet" href="{% static 'chessapp/loginpage.css' %}">
+    </head>
+    <body>
+        <header>
+            <h1>
+                Login page
+            </h1>
+        </header>
+        <form method="post" action="{% url 'chessapp:submit' %}">{% csrf_token %}
+            <label for="username">Username:</label><br />
+            <input type="text" name="username" id="username" required />
+            <br />
+            <label for="password">Password:</label><br />
+            <input type="password" name="password" id="password" required />
+            <br />
+            <input type="submit" value="login">
+        </form>
+        <div id="invalid_box" style="text-align:center">{{ invalid_login }}</div>
+    </body>
+</html>

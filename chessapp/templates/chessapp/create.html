@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <form action="{% url 'chessapp:create' %}" method="POST">
+            {% csrf_token %}
+            
+            <input type="text" name="opponent" value="{{ opponent }}" hidden>
+            
+            <label>Which side do you want to be on?</label><br />
+            <input name="side" type="radio"  id="white" required><label for="white">
+            <br />
+            <input name="side" type="radio"  id="black" required><label for="black">
+            
+            <br /><br />
+            <label for="name"><br />
+            <input name="name" id="name" type="text">
+            
+            <br />
+            <input type="submit" id="submit"><label for="submit">
+        </form>
+    </body>
+</html>
