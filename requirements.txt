@@ -1,5 +1,0 @@
-django==1.10.5
-python-chess
-mysql
-channels==1.0.2
-asgi_redis==1.0.0
