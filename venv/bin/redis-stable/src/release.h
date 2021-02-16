@@ -1,0 +1,3 @@
+#define REDIS_GIT_SHA1 "208d03ca"
+#define REDIS_GIT_DIRTY "2394"
+#define REDIS_BUILD_ID "nirlaptop-1613149892"
