@@ -25,7 +25,7 @@ SECRET_KEY = 'n3x*q96037n4m*lyv$@@!pq46$nbg9u+%dfx(r1dybrrcl6s%8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'onlinechess1.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,6 +86,9 @@ DATABASES = {
             'PORT' : '3306'
             },
 }
+import pymysql
+pymysql.install_as_MySQLdb()
+
 
 CHANNEL_LAYERS = {
     'default': {
