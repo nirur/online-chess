@@ -1,25 +1,62 @@
 <!DOCTYPE html>
 {% load static %}
 
-<html>
+<html class="w3-light-gray">
     <head>
-    	<link rel="stylesheet" href="{% static 'chessapp/loginpage.css' %}">
+    	<link rel="stylesheet" href="{% static 'global/css/w3.css' %}">
+    	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    	<link rel="stylesheet" href="{% static 'chessapp/css/style.css' %}">
+    	<link rel="stylesheet" href="{% static 'chessapp/css/responsive.css' %}">
+    	<link href="{% static 'global/img/favicon.png' %}" rel="icon" type="image/png">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<title>Login - Online Chess</title>
     </head>
     <body>
-        <header>
-            <h1>
-                Login page
-            </h1>
-        </header>
-        <form method="post" action="{% url 'chessapp:submit' %}">{% csrf_token %}
-            <label for="username">Username:</label><br />
-            <input type="text" name="username" id="username" required />
-            <br />
-            <label for="password">Password:</label><br />
-            <input type="password" name="password" id="password" required />
-            <br />
-            <input type="submit" value="login">
-        </form>
-        <div id="invalid_box" style="text-align:center">{{ invalid_login }}</div>
+    	<div class="w3-card-4 w3-white w3-round-large" id="popout">
+            <header>
+            	<h1 class="w3-orange" id="header">
+                	Login
+            	</h1>
+            </header>
+            <article>
+                <img src="{% static 'chessapp/img/king-half-small.png' %}" alt="king half small" class="w3-round-large">
+                <br><br>
+        	    <form class="w3-container" method="post" action="{% url 'chessapp:submit' %}">
+        	        {% csrf_token %}
+            		{{ form.non_field_errors }}
+                    <div class="fieldWrapper">
+                        {{ form.username.errors }}
+                        <label for="{{ form.username.id_for_label }}">Username:</label>
+                        <br>
+                        {{ form.username }}
+                    </div>
+                    <div class="fieldWrapper">
+                        {{ form.password.errors }}
+                        <label for="{{ form.password.id_for_label }}">Password:</label>
+                        <br>
+                        {{ form.password }}
+                    </div>
+                	<input type="submit" value="login" id="submit" class="w3-btn w3-orange w3-round w3-margin">
+            	</form>
+            	<script>
+            	    var n = {...document.getElementsByTagName('input'), ...document.getElementsByTagName('textarea')};
+            	    for (i=0; i<n.length; i++) {
+            	        n[i].classList.add("w3-input");
+            	        };
+            	</script>
+            	<div class="w3-container">{{ invalid_login }}</div>
+            	<br>
+            </article>
+            <div class="w3-orange formfooter w3-padding-small">Member of the staff? Click
+                <a href="/staff">
+                    <button class="w3-btn w3-round w3-deep-orange">here</button>
+                </a>
+            </div>
+        </div>
+        <footer class="pagefooter">
+            <p>
+                Enhanced by W3.CSS
+            </p>
+        </footer>
     </body>
 </html>

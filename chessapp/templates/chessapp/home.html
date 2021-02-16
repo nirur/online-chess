@@ -3,6 +3,17 @@
 
 <html>
     <head>
+        <link href="{% static 'global/img/favicon.png' %}" rel="icon" type="image/png">
+    	<link rel="stylesheet" href="{% static 'global/css/w3.css' %}">
+    	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+        <link rel="stylesheet" href="{% static 'chessapp/css/all.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% for alrt in alerts %}
+            <script>
+                alert("{{ alrt }}");
+            </script>
+        {% endfor %}
+        <title>Homepage - Online Chess</title>
     </head>
     <body>
         <header>
@@ -10,43 +21,32 @@
                 Homepage
             </h1>
         </header>
-        <section style="float:left;width:60%">
-            <article>
-                <header>
-                    <h2>
-                        {{ heading }}
-                    </h2>
-                </header>
-                <ul id="games list">
-                    {% for game_w in games_white %}
-                        <li><a href="/play-{{ game_w.pk }}-white">
-                            [{{ game_w.name }}]: {{ game_w.white }} vs {{ game_w.black }}
-                        </a></li>
-                    {% endfor %}
-                    {% for game_b in games_black %}
-                        <li><a href="/play-{{ game_b.pk }}-black">
-                            [{{ game_b.name }}]: {{ game_b.white }} vs {{ game_b.black }}
-                        </a></li>
-                    {% endfor %}
-                </ul>
-            </article>
-            <aside style="float:left;width:40%">
-                <heading>
-                    <h2>
-                        Players in your group(s) (click on one to create a game):
-                    </h2>
-                </heading>
-                <ul>
-                    {% for player in players %}
-                    <li><a href="{% url 'chessapp:new' %}?o={{ player }}">
-                        {{ player }}
-                    </a></li>
-                    {% endfor %}
-                </ul>
-            </aside>
-        </section>
-        <footer>
-            Credits: Harish and Arjun for webpage styling (CSS)
-        </footer>
+        <article>
+            <header>
+                <h2>
+                    Your Games
+                </h2>
+            </header>
+            <p>
+                {{ no_games }}
+            </p>
+            <ul class="w3-ul w3-card-2">
+                {% for game_w in games_white %}
+                    <li><a href="../play-{{ game_w.id }}">[{{ game_w.name }}]: {{ game_w.white }} (You) vs {{ game_w.black }}</a></li>
+                {% endfor %}
+                {% for game_b in games_black %}
+                    <li><a href="../play-{{ game_b.id }}">[{{ game_b.name }}]: {{ game_b.white }} vs {{ game_b.black }} (You)</a></li>
+                {% endfor %}
+            </ul>
+        </article>
+        <aside class="w3-card">
+            <a href="../new">Start a New Game<a>
+        </aside>
+        <footer class="w3-container">
+   	        Copyright © 2021 by somebody
+            <br>
+            Enhanced by W3.CSS
+       	</footer>
     </body>
 </html>
+

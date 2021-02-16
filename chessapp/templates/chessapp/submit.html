@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html>
     <head>
-        <script>
-            document.cookie = "username={{ uname }}";
-            window.location.replace("{% url 'chessapp:home' %}");
-        </script>
+        <link href="{% static 'global/img/favicon.png' %}" rel="icon" type="image/png">
+        <script type="text/javascript">
+            document.cookie['username'] = "{{ username }}";
+            document.cookie['password'] = "{{ password }}"
+            window.location.replace("../home");</script>
+        <script src="{% static 'chessapp/js/submit.js' %}" type="text/javascript"></script>
     </head>
     <body>
     </body>

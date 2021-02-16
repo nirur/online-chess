@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+        <link href="{% static 'global/img/favicon.png' %}" rel="icon" type="image/png">
+        <link rel="stylesheet" href="{% static 'global/css/w3.css' %}">
+    	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    	<link rel="stylesheet" href="{% static 'chessapp/css/new.css' %}">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <form action="{% url 'chessapp:create' %}" method="POST">
+            {% csrf_token %}
+            <br><br>
+            {{ form.non_field_errors }}
+            <div class="fieldWrapper">
+                {{ form.opposition.errors }}
+                <label for="{{ form.opposition.id_for_label }}">
+                Who do you want to play against?
+                </label>
+                <br>
+                {{ form.opposition }}
+            </div>
+            <br><br>
+            <div class="fieldWrapper">
+                {{ form.side.errors }}
+                <label for="{{ form.side.id_for_label }}">
+                Which side do you want to be on when you play?
+                </label>
+                <br>
+                {{ form.side }}
+            </div>
+            <br><br>
+            <div class="fieldWrapper">
+                {{ form.name.errors }}
+                <label for="{{ form.name.id_for_label }}">
+                What do you want to call your game?
+                </label>
+                <br>
+                {{ form.name }}
+            </div>
+            <br><br>
+            <input class="w3-btn w3-orange" type="submit" id="submit"><label for="submit">
+        </form>
+        <script>
+            var n = {...document.getElementsByTagName('input'), ...document.getElementsByTagName('textarea')};
+            for (i=0; i<n.length; i++) {
+       	        n[i].classList.add("w3-input");
+            	};
+        </script>
+    </body>
+</html>

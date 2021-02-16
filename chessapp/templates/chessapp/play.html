@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+        <link href="{% static 'global/img/favicon.png' %}" rel="icon" type="image/png">
+        <!-- jQery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <noscript>
+            Sorry! Your browser doesn't support the Javascript needed for this site.
+        </noscript>
+        <!-- Main Javascript -->
+        <script>
+            function redrawSVG(board_str)
+                {
+                let container = document.getElementById("svgContainer");
+                
+                let txt = board_str.replace(/&lt;/g,'<')
+                .replace(/&gt;/g,'>')
+                .replace(/&quot;/g,'"');
+                
+                
+                container.innerHTML = txt;
+            };
+        </script>
+        <script src="{% static 'chessapp/js/game-update.js' %}"></script>
+        <noscript>
+            Sorry! Your browser doesn't support the Javascript needed for this site.
+        </noscript>
+        <!-- Opponent Video/audio connection -->
+        <script id="WebRTC">
+            "";
+        </script>
+        <noscript>
+            Sorry! Your browser doesn't support the Javascript needed for this site.
+        </noscript>
+    </head>
+    <body id="currentPage">
+        <header>
+            <h1 style="align:center;">{{ game }}</h1>
+        </header>
+        <section>
+            <article style="width:42%;float:left">
+                <div id="svgContainer">
+                </div>
+                <script id="svgStart">
+                redrawSVG('{{ current_board }}');
+                </script>
+            </article>
+            <aside style="float:left">
+                <video autoplay playsinline id="opponentCam">
+                </video>
+                <audio id="opponentSound" preload="auto" autoplay>
+                </audio>
+            </aside>
+        </section>
+        <footer>
+            <details>
+                <summary>
+                    Match history
+                </summary>
+                <table>
+                    <tr>
+                        <th>White moves</th>
+                        <th>Black moves</th>
+                    </tr>
+                    {% for row in data %}
+                    <tr>
+                        {% for move in row %}
+                        <td>{{ move }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </details>
+        </footer>
+    </body>
+</html>

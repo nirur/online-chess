@@ -7,10 +7,29 @@ For more information on this file, see
 https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 """
 
-import os
+import os, sys
 
+import django
 from django.core.asgi import get_asgi_application
+
+sys.path.append('/home/django-projects/onlinechess-project/')
+sys.path.append('/home/django-projects/onlinechess-project/venv/lib/python3.8/site-packages')
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'onlinechess.settings')
 
-application = get_asgi_application()
+os.environ['channels_users'] = ''
+
+django.setup()
+
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.auth import AuthMiddlewareStack
+
+from onlinechess.routing import websocket_urlpatterns
+
+application = ProtocolTypeRouter({
+                      'http':get_asgi_application(),
+                      'websocket':AuthMiddlewareStack(
+                          URLRouter(websocket_urlpatterns)
+                          )
+                      })
+
