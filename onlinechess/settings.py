@@ -102,7 +102,7 @@ else:
             'USER': 'niranjan',
             'PASSWORD': 'niranju20',
             'HOST' : 'localhost',
-            'PORT' : '3306'
+            'PORT' : '3306',
             'OPTIONS': {
                 'autocommit':True
             }
