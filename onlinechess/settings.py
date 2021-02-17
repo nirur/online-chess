@@ -76,7 +76,16 @@ ASGI_APPLICATION = 'onlinechess.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {} #configured with heroku
+DATABASES = {
+#    'default': {
+#            'ENGINE': 'django.db.backends.mysql',
+#            'NAME': 'chessdb',
+#            'USER': 'niranjan',
+#            'PASSWORD' : 'niranju20',
+#            'HOST' : 'localhost',
+#            'PORT' : '3306'
+#            },
+} # configured by heroku
 import pymysql
 pymysql.install_as_MySQLdb()
 
