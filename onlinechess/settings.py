@@ -82,7 +82,7 @@ if 'CLEARDB_DATABASE_URL' in dict(os.environ).keys():
     url = urlparse.urlparse(os.environ['CLEARDB_DATABASE_URL'])
     DATABASES = {
         'default': {
-            'ENGINE': 'mysql.connector.django',
+            'ENGINE': 'django.db.backends.mysql',
             'NAME': url.path[1:], # 'chessdb',
             'USER': url.username, # 'niranjan',
             'PASSWORD': url.password, # 'niranju20',
@@ -90,24 +90,28 @@ if 'CLEARDB_DATABASE_URL' in dict(os.environ).keys():
             'PORT' : url.port, # '3306'
             'OPTIONS': {
                 'autocommit':True
-            },
+            }
         },
     } # configured for heroku
 
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'mysql.connector.django',
+            'ENGINE': 'django.db.backends.mysql',
             'NAME': 'chessdb',
             'USER': 'niranjan',
             'PASSWORD': 'niranju20',
             'HOST' : 'localhost',
-            'PORT' : '3306',
+            'PORT' : '3306'
             'OPTIONS': {
                 'autocommit':True
-            },
+            }
         },
     }
+
+from django.db.backends.mysql.base import DatabaseWrapper
+DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
+
 import pymysql
 pymysql.install_as_MySQLdb()
 
