@@ -14,9 +14,16 @@
     </head>
     <body>
         <header>
-            <div>
-                <span style="float:left; width: 10vw">Homepage</span>
-                <span style="float:left; text-align: center; padding-left: ">
+            <div class="w3-orange w3-text-opacity">
+                <span style="float:left; width: 10vw">
+                    to Homepage
+                </span>
+                <div style="float:left; text-align: center; width: 90vw;">
+                    <h1>
+                        {% block content %}
+                        {% endblock content %}
+                    </h1>
+                </div>
             </div>
         </header>
     </body>
