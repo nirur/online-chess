@@ -90,7 +90,7 @@ if 'CLEARDB_DATABASE_URL' in dict(os.environ).keys():
             'PORT' : url.port, # '3306'
             'OPTIONS': {
                 'autocommit':True
-            }
+            },
         },
     } # configured for heroku
 
@@ -102,10 +102,10 @@ else:
             'USER': 'niranjan',
             'PASSWORD': 'niranju20',
             'HOST' : 'localhost',
-            'PORT' : '3306'
+            'PORT' : '3306',
             'OPTIONS': {
                 'autocommit':True
-            }
+            },
         },
     }
 import pymysql
