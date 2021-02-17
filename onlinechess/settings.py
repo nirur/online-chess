@@ -82,25 +82,31 @@ if 'CLEARDB_DATABASE_URL' in dict(os.environ).keys():
     url = urlparse.urlparse(os.environ['CLEARDB_DATABASE_URL'])
     DATABASES = {
         'default': {
-                'ENGINE': 'mysql.connector.django',
-                'NAME': url.path[1:], # 'chessdb',
-                'USER': url.username, # 'niranjan',
-                'PASSWORD': url.password, # 'niranju20',
-                'HOST' : url.hostname, # 'localhost',
-                'PORT' : url.port, # '3306'
-                },
+            'ENGINE': 'mysql.connector.django',
+            'NAME': url.path[1:], # 'chessdb',
+            'USER': url.username, # 'niranjan',
+            'PASSWORD': url.password, # 'niranju20',
+            'HOST' : url.hostname, # 'localhost',
+            'PORT' : url.port, # '3306'
+            'OPTIONS': {
+                'autocommit':True
+            }
+        },
     } # configured for heroku
 
 else:
     DATABASES = {
         'default': {
-                'ENGINE': 'mysql.connector.django',
-                'NAME': 'chessdb',
-                'USER': 'niranjan',
-                'PASSWORD': 'niranju20',
-                'HOST' : 'localhost',
-                'PORT' : '3306'
-                },
+            'ENGINE': 'mysql.connector.django',
+            'NAME': 'chessdb',
+            'USER': 'niranjan',
+            'PASSWORD': 'niranju20',
+            'HOST' : 'localhost',
+            'PORT' : '3306'
+            'OPTIONS': {
+                'autocommit':True
+            }
+        },
     }
 import pymysql
 pymysql.install_as_MySQLdb()
