@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n3x*q96037n4m*lyv$@@!pq46$nbg9u+%dfx(r1dybrrcl6s%8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -76,16 +76,16 @@ ASGI_APPLICATION = 'onlinechess.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#            'ENGINE': 'django.db.backends.mysql',
-#            'NAME': 'chessdb',
-#            'USER': 'niranjan',
-#            'PASSWORD' : 'niranju20',
-#            'HOST' : 'localhost',
-#            'PORT' : '3306'
-#            },
-#} # configured by heroku
+DATABASES = {
+    'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'chessdb',
+            'USER': 'niranjan',
+            'PASSWORD' : 'niranju20',
+            'HOST' : 'localhost',
+            'PORT' : '3306'
+            },
+} # configured by heroku
 import pymysql
 pymysql.install_as_MySQLdb()
 

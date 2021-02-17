@@ -1,8 +1,8 @@
 from django.forms import *
 
 class LoginForm(Form):
-    username = CharField(label="Username")
-    password = CharField(label="Password", widget=PasswordInput)
+    username = CharField(label="Username", required=True)
+    password = CharField(label="Password", widget=PasswordInput, required=True)
 
 class NewgameForm(Form):
     CHOICES_SIDE = [('white', 'white'),
