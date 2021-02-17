@@ -90,8 +90,8 @@ DATABASES = {
             },
 } # configured for heroku
 
-import pymysql
-pymysql.install_as_MySQLdb()
+#import pymysql
+#pymysql.install_as_MySQLdb()
 
 
 CHANNEL_LAYERS = {
