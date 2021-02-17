@@ -109,11 +109,11 @@ else:
         },
     }
 
-from django.db.backends.mysql.base import DatabaseWrapper
-DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
-
 import pymysql
 pymysql.install_as_MySQLdb()
+
+from django.db.backends.mysql.base import DatabaseWrapper
+DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
 
 
 CHANNEL_LAYERS = {
