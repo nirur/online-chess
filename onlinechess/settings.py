@@ -82,7 +82,7 @@ if 'CLEARDB_DATABASE_URL' in dict(os.environ).keys():
     url = urlparse.urlparse(os.environ['CLEARDB_DATABASE_URL'])
     DATABASES = {
         'default': {
-                'ENGINE': 'django.db.backends.mysql',
+                'ENGINE': 'mysql.connector.django',
                 'NAME': url.path[1:], # 'chessdb',
                 'USER': url.username, # 'niranjan',
                 'PASSWORD': url.password, # 'niranju20',
@@ -94,7 +94,7 @@ if 'CLEARDB_DATABASE_URL' in dict(os.environ).keys():
 else:
     DATABASES = {
         'default': {
-                'ENGINE': 'django.db.backends.mysql',
+                'ENGINE': 'mysql.connector.django',
                 'NAME': 'chessdb',
                 'USER': 'niranjan',
                 'PASSWORD': 'niranju20',
