@@ -21,6 +21,9 @@ os.environ['channels_users'] = ''
 
 django.setup()
 
+print(dict(os.environ).keys())
+print(('DATABASE_URL' in dict(os.environ).keys()))
+
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 
