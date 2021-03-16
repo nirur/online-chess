@@ -1,77 +1,47 @@
-<!DOCTYPE html>
-{% load static %}
+{% extends 'chessapp/base.html' %}
 
-<html>
-    <head>
-        <link href="{% static 'global/img/favicon.png' %}" rel="icon" type="image/png">
-        <!-- jQery -->
-        <noscript>
-            Sorry! Your browser doesn't support the Javascript needed for this site.
-        </noscript>
-        <!-- Main Javascript -->
-        <script>
-            function redrawSVG(board_str)
-                {
-                let container = document.getElementById("svgContainer");
-                
-                let txt = board_str.replace(/&lt;/g,'<')
-                .replace(/&gt;/g,'>')
-                .replace(/&quot;/g,'"');
-                
-                
-                container.innerHTML = txt;
-            };
-        </script>
-        <script src="{% static 'chessapp/js/game-update.js' %}"></script>
-        <noscript>
-            Sorry! Your browser doesn't support the Javascript needed for this site.
-        </noscript>
-        <!-- Opponent Video/audio connection -->
-        <script id="WebRTC">
-            "";
-        </script>
-        <noscript>
-            Sorry! Your browser doesn't support the Javascript needed for this site.
-        </noscript>
-    </head>
-    <body id="currentPage">
-        <header>
-            <h1 style="align:center;">{{ game }}</h1>
-        </header>
-        <section>
-            <article style="width:42%;float:left">
-                <div id="svgContainer">
-                </div>
-                <script id="svgStart">
-                redrawSVG('{{ current_board }}');
-                </script>
-            </article>
-            <aside style="float:left">
-                <video autoplay playsinline id="opponentCam">
-                </video>
-                <audio id="opponentSound" preload="auto" autoplay>
-                </audio>
-            </aside>
-        </section>
-        <footer>
-            <details>
-                <summary>
-                    Match history
-                </summary>
-                <table>
-                    <tr>
-                        <th>White moves</th>
-                        <th>Black moves</th>
-                    </tr>
-                    {% for row in data %}
-                    <tr>
-                        {% for move in row %}
-                        <td>{{ move }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </table>
-            </details>
-        </footer>
-    </body>
-</html>
+<!-- Javascript -->
+{% block script %}
+<!-- Board Updating -->
+<script src="{% static 'chessapp/js/game-update.js' %}"></script>
+<!-- Opponent Video/Audio Connection -->
+<script id="WebRTC"></script>
+{% endblock script %}
+
+<!-- Title of the Webpage -->
+{% block metatitle %}Play Chess{% endblock metatitle %}
+{% block mainheader %}{{ game }}{% endblock mainheader %}
+
+<!-- Modal Content -->
+{% block modal %}
+<div id='modal' style='display:none'>
+    <div>
+        Game Over!
+    </div>
+    <div id="modal-aftercontent" style="display:none">
+        <button onclick="connection.send(JSON.stringify({type:'POSTGAME', data:'delete'}))">Delete</button>
+        <button onclick="connection.send(JSON.stringify({type:'POSTGAME', data:'save'}))">Save</button>
+    </div>
+</div>
+{% endblock modal %}
+
+<!-- Center Content -->
+{% block content %}
+<div id="svgContainer" class="w3-card-2"></div>
+<script id="svgStart">
+    redrawSVG('{{ current_board|safe }}');
+</script>
+{% endblock content %}
+
+<!-- Right Bar Content -->
+{% block rightbar %}
+<div class="w3-card-2 w3-section" id="call">
+    <video autoplay playsinline id="opponentCam"></video>
+    <audio id="opponentSound" preload="auto" autoplay></audio>
+</div>
+<div class="w3-card-2 w3-section" id="match-history">
+</div>
+<div class="w3-card-2 w3-section">
+
+</div>
+{% endblock rightbar %}

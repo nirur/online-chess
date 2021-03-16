@@ -54,20 +54,12 @@ def game(request, game_id):
     elif game.black == player.username:
         flipped = True
     try:
-        lastmove=eval(game.moves)[-1]
+        lastmove=Move.from_uci(eval(game.moves)[-1])
     except IndexError:
         lastmove = None
     gameboard = svg.board(eval(game.board), flipped=flipped, lastmove=lastmove)
     context = {'game':game, 'current_board':gameboard}
     return render(request, 'chessapp/play.html', context)
-
-def client_move(request, game_id):
-    '''Server-side game 'client made a move' request handler'''
-    pass
-
-def page_update(request, game_id):
-    '''Server-side game page continuous updating request handler'''
-    pass
 
 def home(request):
     '''User-side homepage'''

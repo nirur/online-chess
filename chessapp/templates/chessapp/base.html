@@ -2,29 +2,82 @@
 
 <html>
     <head>
-        <link href="{% static 'global/img/favicon.png' %}" rel="icon" type="image/png">
-    	<link rel="stylesheet" href="{% static 'global/css/w3.css' %}">
+        <!-- EXTERNAL FILES -->
+        <!-- Favicon.ico -->
+        <link rel="icon" href="{% static 'chessapp/img/chess-king.png' %}">
+        <!-- <link href="{% static 'global/img/favicon.png' %}" rel="icon" type="image/png"> -->
+        <!-- W3.CSS -->
+    	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    	<!-- jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+        <!-- Roboto Fonts -->
+    	<link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    	<!-- Base CSS file -->
         <link rel="stylesheet" href="{% static 'chessapp/css/base.css' %}">
+        <!-- In case the specific page has more files needed -->
+        {% block script %}
+        {% endblock script %}
+        
+        <!-- META DECLARATIONS -->
+        <!-- Responsive webpage viewport declaration -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% block content %}
-        <title> Webpage - Online Chess </title>
-        {% endblock content}
+        <!-- Character set declaration -->
+        <meta charset="UTF-8">
+        <!-- Author and description -->
+        <meta name="author" content="Niranjan R">
+        <meta name="description" content="An Online Chess Website">
+        
+        <!-- Page title -->
+        <title> {% block metatitle %}Webpage{% endblock metatitle %} - Online Chess </title>
     </head>
     <body>
-        <header>
-            <div class="w3-orange w3-text-opacity">
-                <span style="float:left; width: 10vw">
-                    to Homepage
-                </span>
-                <div style="float:left; text-align: center; width: 90vw;">
-                    <h1>
-                        {% block content %}
-                        {% endblock content %}
-                    </h1>
-                </div>
+
+        <!-- Header/Top Bar -->
+        <header class="w3-card-4 w3-stretch"  id="top-bar">
+            <div id="leftheaderlink" style="position: absolute; left: 0; width: 10vw">
+                <a href="{% url 'chessapp:home' %}">
+                    To Homepage
+                </a>
+            </div>
+            <div id="mainheader">
+                {% block mainheader %}
+                {% endblock mainheader %}
             </div>
         </header>
+
+        
+        <!-- Main Content -->
+        <main class="w3-stretch w3-section" id="main-content">
+
+            <!-- Modal Content -->
+            <section id="modal-content">
+            {% block modal %}
+            {% endblock modal %}
+            </section>
+
+            <!-- Center Content -->
+            <article id="main-content-center-column">
+            {% block content %}
+            {% endblock content %}
+            </article>
+
+            <!-- Right Bar Content -->
+            <aside id="main-content-right-bar">
+            {% block rightbar %}
+            {% endblock rightbar %}
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="w3-container w3-stretch w3-gray" id="footer">
+            <div class="w3-stretch">
+                Copyright © 2020 All Rights Reserved. Contact unsolicited-mail@spam4.me
+            </div>
+            <div>
+                Empowered by W3.CSS
+            </div>
+        </footer>
+
     </body>
 </html>

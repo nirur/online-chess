@@ -1,5 +1,5 @@
-venv/bin/python manage.py collectstatic --no-input
+venv/bin/python3 manage.py collectstatic --no-input
 
-sudo /etc/init.d/nginx restart
+#sudo /etc/init.d/nginx restart
 
-venv/bin/redis-stable/src/redis-server & venv/bin/python manage.py runserver localhost:8001
+venv/bin/redis-stable/src/redis-server & venv/bin/python3 manage.py runserver 192.168.86.30:8001

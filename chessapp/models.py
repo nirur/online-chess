@@ -8,7 +8,7 @@ class Game(Model):
     white = CharField(max_length=30, default="")
     black = CharField(max_length=30, default="")
     board = CharField(max_length=100, default='Board()')
-    moves = CharField(max_length=1000, default="[]")
+    moves = CharField(max_length=10000, default="[]")
     
     def __str__(self):
         return "[%s]: %s vs %s" % (self.name, self.white, self.black)

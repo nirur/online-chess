@@ -7,17 +7,10 @@ from django.contrib.auth.models import User
 
 from .models import Game
 
-from chess import (Board, Move,
-        A1, B1, C1, D1, E1, F1, G1, H1,
-        A2, B2, C2, D2, E2, F2, G2, H2,
-        A3, B3, C3, D3, E3, F3, G3, H3,
-        A4, B4, C4, D4, E4, F4, G4, H4,
-        A5, B5, C5, D5, E5, F5, G5, H5,
-        A6, B6, C6, D6, E6, F6, G6, H6,
-        A7, B7, C7, D7, E7, F7, G7, H7,
-        A8, B8, C8, D8, E8, F8, G8, H8,)
+import chess
+from chess import Board, Move, SquareSet
 from chess.svg import board as boardify
-from asgiref.sync import sync_to_async
+from asgiref.sync import sync_to_async, async_to_sync
 
 class PlayerConsumer(JsonWebsocketConsumer):
 
@@ -32,8 +25,7 @@ class PlayerConsumer(JsonWebsocketConsumer):
             self.close()
             return
         # Connecting to correct game layer
-        self.channel_layer.group_add('gameid-'+self.gameid, self.channel_name)
-        self.groups = ['gameid'+self.gameid]
+        async_to_sync(self.channel_layer.group_add)('gameid-'+self.gameid, self.channel_name)
         # Accept connection
         self.accept()
 
@@ -43,7 +35,7 @@ class PlayerConsumer(JsonWebsocketConsumer):
         # Fetching game from database
         self.game = Game.objects.get(pk=self.gameid)
         self.board = eval(self.game.board)
-        self.board.move_stack = eval(self.game.moves)
+        self.board.move_stack = [Move.from_uci(itm) for itm in eval(self.game.moves)]
         # Fetching user from database
         uid = self.scope['session']['_auth_user_id']
         self.user = User.objects.get(pk=uid)
@@ -52,10 +44,10 @@ class PlayerConsumer(JsonWebsocketConsumer):
         username = self.user.username
         # Check if player is on white side
         if username == self.game.white:
-            return False
+            return True
         # Otherwise, check if player is on black side
         elif username == self.game.black:
-            return True
+            return False
         # If neither, the "player" is probably an impostor
         # That is how this also doubles as an extra layer of auth
         else:
@@ -67,9 +59,29 @@ class PlayerConsumer(JsonWebsocketConsumer):
         except:
             pass
         self.game.board = repr(self.board)
-        self.game.moves = repr(self.board.move_stack)
+        self.game.moves = repr([str(itm) for itm in self.board.move_stack])
         self.game.save()
-        return boardify(self.board, lastmove=self.get_movestack(), flipped=self.flipped)
+        checks = self.get_checks()
+        checked_square = None
+        if checks[0] == 'not over':
+            if checks[1] == 'check':
+                checked_square = checks[2]
+        elif checks[0] == 'game over':
+            self.send_json(
+                    {
+                        'type':'GAMEOVER',
+                        'data':[checks[1], boardify(
+                                self.board, lastmove=self.get_movestack(), orientation=self.flipped, check=checks[2]
+                                )
+                            ]
+                        }
+                    )
+            self.game.status = checks[1]
+            self.game.save()
+            return None
+        return boardify(
+                self.board, lastmove=self.get_movestack(), orientation=self.flipped, check=checked_square
+                )
 
     def get_movestack(self):
         try: mv = self.board.move_stack[-1]
@@ -77,98 +89,158 @@ class PlayerConsumer(JsonWebsocketConsumer):
         return mv
 
     def initial_validate_move(self, mv):
-        piece = str(self.board.piece_at(eval(mv[:2].upper())))
+        if len(mv) < 3:
+            first_two = mv
+        else:
+            first_two = mv[:2]
+        piece = str(self.board.piece_at(getattr(chess, first_two.upper())))
         upper = (piece == piece.upper())
-        if upper ^ self.flipped:
-            print(True)
+        if upper == self.flipped:
             return True
         return False
+
+    def get_checks(self):
+        gameover = self.board.is_game_over()
+        if not gameover and self.board.is_check():
+            return ('not over', 'check', self.board.king(self.board.turn))
+        elif gameover:
+            # Check for checkmates
+            checkmate = self.board.is_checkmate()
+            # Check for a draw of any type
+            stalemate = self.board.is_stalemate()
+            insufficient_material = self.board.is_insufficient_material()
+            seventyfive_moves = self.board.is_seventyfive_moves()
+            fivefold_repetition = self.board.is_fivefold_repetition()
+            # Summarize the condition for a draw
+            draw = (stalemate or insufficient_material or seventyfive_moves or fivefold_repetition)
+            # Now run the checks
+            if checkmate:
+                if self.board.turn == True:
+                    winner = 'black'
+                elif self.board.turn == False:
+                    winner = 'white'
+                return ('game over', f'Checkmate - {winner} wins', self.board.king(self.board.turn))
+            elif draw:
+                if stalemate:
+                    reason = 'Stalemate'
+                elif insufficient_material:
+                    reason = 'Insufficient material for either side to win'
+                elif seventyfive_moves:
+                    reason = '75 move limit reached'
+                elif fivefold_repetition:
+                    reason = 'Same position repeated 5 times'
+                return ('game over', 'Draw', f'It\'s a draw!\n{reason}')
+        return ('not over', None)
 
     def receive_json(self, data):
         t = data['type']
         if t == 'HEARTBEAT':
             self.send_json({'type':'HEARTBEAT'})
-        if t == 'MOVE':
+        elif t == 'POSTGAME':
+            if data['data'] == 'delete':
+                self.game.delete()
+            return
+        elif t == 'PIECECLICK':
+            validate = self.initial_validate_move(data['data'])
+            if validate == False:
+                return
+            possiblemoves = []
+            for legalmove in self.board.legal_moves:
+                if str(legalmove).startswith(data['data']):
+                    possiblemoves.append(str(legalmove))
+            possiblemoves = SquareSet([getattr(chess, mv[2:].upper()) for mv in possiblemoves])
+            b = boardify(self.board, orientation=self.flipped, squares=possiblemoves)
+            self.send_json({'type':'PROCESSED', 'data':b})
+        elif t == 'MOVE':
             mv = data['data']
             validated = self.initial_validate_move(mv)
             if validated == False:
                 return
             new_board = self.move(mv)
-            data = {'type':'MOVEPROCESSED', 'data':new_board}
+            if new_board == None:
+                return
+            data = {'type':'PROCESSED', 'data':new_board}
             self.send_json(data)
-            self.channel_layer.group_send('serverside.move', data)
+            serverdata = {'type':'my.serverside', 'data':([str(itm) for itm in self.board.move_stack], repr(self.board))}
+            async_to_sync(self.channel_layer.group_send)('gameid-'+self.gameid, serverdata)
 
-    def serverside_move(self, data):
-        print('Got this!')
-        self.send_json(data)
+    def my_serverside(self, data):
+        self.board = eval(data['data'][1])
+        self.board.move_stack = [Move.from_uci(itm) for itm in data['data'][0]]
+        self.game.board = repr(self.board)
+        self.game.moves = repr(data['data'][0])
+        self.game.save()
+        b = boardify(self.board, orientation=self.flipped, lastmove=self.get_movestack())
+        self.send_json({'type':'PROCESSED', 'data':b})
 
     def disconnect(self, close_code):
-        self.channel_layer.group_discard('gameid-'+self.gameid, self.channel_name)
+        async_to_sync(self.channel_layer.group_discard)('gameid-'+self.gameid, self.channel_name)
 
-class AsyncPlayerConsumer(AsyncJsonWebsocketConsumer):
-
-    async def connect(self):
-        # Setting variables from database
-        await database_sync_to_async(self.setvalsdb)()
-        # Setting global "flipped" variable
-        # For whether the board is flipped or not from user perspective
-        # Also doubles as another layer of authentication
-        self.flipped = await self.get_flipped()
-        if self.flipped is None:
-            await self.close()
-            return
-        # Connecting to correct game layer
-        await self.channel_layer.group_add('gameid-'+self.gameid, self.channel_name)
-        # Accept connection
-        await self.accept()
-
-    def setvalsdb(self):
-        # Setting value as global, since we're here anyways
-        self.gameid = str(self.scope['url_route']['kwargs']['game_id'])
-        # Fetching game from database
-        self.game = Game.objects.get(pk=self.gameid)
-        self.board = eval(self.game.board)
-        # Fetching user from database
-        uid = self.scope['session']['_auth_user_id']
-        self.user = User.objects.get(pk=uid)
-
-    async def get_flipped(self):
-        username = self.user.username
-        # Check if player is on white side
-        if username == self.game.white:
-            return False
-        # Otherwise, check if player is on black side
-        elif username == self.game.black:
-            return True
-        # If neither, the "player" is probably an impostor
-        # That is how this also doubles as an extra layer of auth
-        else:
-            return None
-
-    async def move(self, mv):
-        await sync_to_async(self.board.push_uci)(mv)
-        self.game.board = repr(self.board)
-        await database_sync_to_async(self.save_game)()
-        return boardify(b, lastmove=b.move_stack[-1], flipped=self.flipped)
-
-    def save_game(self):
-        self.game.save()
-
-    async def receive_json(self, data):
-        t = data['type']
-        if t == 'HEARTBEAT':
-            await self.send_json({'type':'HEARTBEAT'})
-        if t == 'MOVE':
-            new_board = await self.move(data['data'])
-            print(new_board)
-            data = {'type':'MOVEPROCESSED', 'data':new_board}
-            await self.send_json(data)
-            await self.channel_layer.group_send('serverside.move', data)
-
-    async def serverside_move(self, data):
-        await self.send_json(data)
-
-    async def disconnect(self, close_code):
-        await self.channel_layer.group_discard('gameid-'+self.gameid, self.channel_name)
-
-
+#class AsyncPlayerConsumer(AsyncJsonWebsocketConsumer):
+#
+#    async def connect(self):
+#        # Setting variables from database
+#        await database_sync_to_async(self.setvalsdb)()
+#        # Setting global "flipped" variable
+#        # For whether the board is flipped or not from user perspective
+#        # Also doubles as another layer of authentication
+#        self.flipped = await self.get_flipped()
+#        if self.flipped is None:
+#            await self.close()
+#            return
+#        # Connecting to correct game layer
+#        await self.channel_layer.group_add('gameid-'+self.gameid, self.channel_name)
+#        # Accept connection
+#        await self.accept()
+#
+#    def setvalsdb(self):
+#        # Setting value as global, since we're here anyways
+#        self.gameid = str(self.scope['url_route']['kwargs']['game_id'])
+#        # Fetching game from database
+#        self.game = Game.objects.get(pk=self.gameid)
+#        self.board = eval(self.game.board)
+#        # Fetching user from database
+#        uid = self.scope['session']['_auth_user_id']
+#        self.user = User.objects.get(pk=uid)
+#
+#    async def get_flipped(self):
+#        username = self.user.username
+#        # Check if player is on white side
+#        if username == self.game.white:
+#            return False
+#        # Otherwise, check if player is on black side
+#        elif username == self.game.black:
+#            return True
+#        # If neither, the "player" is probably an impostor
+#        # That is how this also doubles as an extra layer of auth
+#        else:
+#            return None
+#
+#    async def move(self, mv):
+#        await sync_to_async(self.board.push_uci)(mv)
+#        self.game.board = repr(self.board)
+#        await database_sync_to_async(self.save_game)()
+#        return boardify(b, lastmove=b.move_stack[-1], flipped=self.flipped)
+#
+#    def save_game(self):
+#        self.game.save()
+#
+#    async def receive_json(self, data):
+#        t = data['type']
+#        if t == 'HEARTBEAT':
+#            await self.send_json({'type':'HEARTBEAT'})
+#        elif t == 'PIECECLICK':
+#            b = boardify(self.board, flipped=self.flipped, squares=self.board.attacks(getattr(chess, data['data'].upper())))
+#            await self.send_json({'type':'PROCESSED', 'data':b})
+#        elif t == 'MOVE':
+#            new_board = await self.move(data['data'])
+#            print(new_board)
+#            data = {'type':'PROCESSED', 'data':new_board}
+#            await self.send_json(data)
+#            await self.channel_layer.group_send('serverside.move', data)
+#
+#    async def serverside_move(self, data):
+#        await self.send_json(data)
+#
+#    async def disconnect(self, close_code):
+#        await self.channel_layer.group_discard('gameid-'+self.gameid, self.channel_name)
