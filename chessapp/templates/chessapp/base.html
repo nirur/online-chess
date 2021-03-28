@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+{% load compile_static %}
+{% load static %}
+
+<html lang="en-US">
     <head>
         <!-- EXTERNAL FILES -->
         <!-- Favicon.ico -->
@@ -10,12 +13,12 @@
     	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     	<!-- jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <!-- Roboto Fonts -->
+        <!-- Fonts -->
     	<link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Montserrat:wght@100&family=Poppins:wght@100&family=Roboto:wght@100&display=swap" rel="stylesheet">
     	<!-- Base CSS file -->
-        <link rel="stylesheet" href="{% static 'chessapp/css/base.css' %}">
-        <!-- In case the specific page has more files needed -->
+        <link rel="stylesheet" href="{% static 'chessapp/css/base.styl'|compile %}">
+        <!-- In case the page has more external files -->
         {% block script %}
         {% endblock script %}
         
@@ -34,49 +37,56 @@
     <body>
 
         <!-- Header/Top Bar -->
-        <header class="w3-card-4 w3-stretch"  id="top-bar">
-            <div id="leftheaderlink" style="position: absolute; left: 0; width: 10vw">
-                <a href="{% url 'chessapp:home' %}">
-                    To Homepage
-                </a>
-            </div>
+        <header class="w3-card-4 w3-center"  id="top-bar">
+            {% block possiblelink %}
+                <div id="leftheaderlink">
+                    <a href="{% url 'chessapp:home' %}">
+                        <img src="{% static 'chessapp/img/exit.png' %}">
+                    </a>
+                    <span class="hover-text">Exit to Home Page</span>
+                </div>
+            {% endblock possiblelink %}
             <div id="mainheader">
-                {% block mainheader %}
-                {% endblock mainheader %}
+                <h1>
+                    {% block mainheader %}
+                    {% endblock mainheader %}
+                </h1>
             </div>
         </header>
 
         
         <!-- Main Content -->
-        <main class="w3-stretch w3-section" id="main-content">
+        <main class="" id="main-content">
 
             <!-- Modal Content -->
-            <section id="modal-content">
+            <section id="modal-content" class="w3-section">
             {% block modal %}
             {% endblock modal %}
             </section>
 
             <!-- Center Content -->
-            <article id="main-content-center-column">
+            <article id="main-content-center-column" class="w3-section">
             {% block content %}
             {% endblock content %}
             </article>
 
             <!-- Right Bar Content -->
-            <aside id="main-content-right-bar">
+            <aside id="main-content-right-bar" class="w3-section">
             {% block rightbar %}
             {% endblock rightbar %}
             </aside>
         </main>
 
         <!-- Footer -->
-        <footer class="w3-container w3-stretch w3-gray" id="footer">
-            <div class="w3-stretch">
-                Copyright © 2020 All Rights Reserved. Contact unsolicited-mail@spam4.me
-            </div>
-            <div>
-                Empowered by W3.CSS
-            </div>
+        <footer class="w3-container w3-section w3-center" id="footer">
+            <br><br>
+            Copyright © 2020 All Rights Reserved
+            <br>Questions? Contact:
+              <a href="mailto:a91.b83@gmail.com">a91.b83@gmail.com</a>
+              OR
+              <a href="mailto:unsolicited-mail@spam4.me">unsolicited-mail@spam4.me</a>
+            <br>Empowered by W3.CSS and icons from Material Design Icons
+            <br><br>
         </footer>
 
     </body>

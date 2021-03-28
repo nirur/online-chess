@@ -1,5 +1,8 @@
 {% extends 'chessapp/base.html' %}
 
+{% load compile_static %}
+{% load static %}
+
 <!-- Javascript -->
 {% block script %}
 <!-- Board Updating -->
@@ -27,7 +30,7 @@
 
 <!-- Center Content -->
 {% block content %}
-<div id="svgContainer" class="w3-card-2"></div>
+<div id="svgContainer" class="w3-card-4" style="height: 56vw"></div>
 <script id="svgStart">
     redrawSVG('{{ current_board|safe }}');
 </script>
@@ -35,13 +38,22 @@
 
 <!-- Right Bar Content -->
 {% block rightbar %}
-<div class="w3-card-2 w3-section" id="call">
-    <video autoplay playsinline id="opponentCam"></video>
+<div class="w3-card-4 w3-section" id="call">
+    <video autoplay playsinline id="cam" style="display: inline-block; width: 528px; height: 297px"></video>
     <audio id="opponentSound" preload="auto" autoplay></audio>
 </div>
-<div class="w3-card-2 w3-section" id="match-history">
+<div class="w3-card-4 w3-section w3-padding" id="match-history">
+    Learn your history
 </div>
-<div class="w3-card-2 w3-section">
-
+<div class="w3-card-4 w3-section w3-padding" id="info">
+    <img src="{% static 'chessapp/img/information.png' %}" width="16" height="16">
+    <h6>Match Information</h6>
+    <ul>
+        <li>Standard Chess</li>
+        <li>No Undoes</li>
+        <li>Game ends on fivefold repetition</li>
+        <li>Game ends at 75 moves</li>
+    </ul>
+    <p>You can't change these settings</p>
 </div>
 {% endblock rightbar %}

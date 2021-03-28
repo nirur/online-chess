@@ -4,11 +4,11 @@
 
 function redrawSVG(board_str) {
     let container = document.getElementById("svgContainer");
-    container.innerHTML = txt;
+    container.innerHTML = board_str;
 };
 
 // Initialize the connection to server
-var connection = new WebSocket('ws://'+window.location.hostname+':8001/ws/1');
+var connection = new WebSocket('ws://'+window.location.hostname+':8000/ws/1');
 
 // Add event listeners for when a move is processed by server and heartbeats from server
 // Heartbeats are required, since the connection enters an 'inactive' state
@@ -29,6 +29,9 @@ connection.onmessage = function (rawdata) {
             mainmodal.style.display = 'block';
             aftermodaltext = document.getElementById('modal-aftercontent').innerHTML;
             mainmodal.innerHTML += aftermodaltext;
+            break;
+        case 'STREAM':
+            document.getElementById('cam').srcObj = data['data'];
             break;
     };
 };
@@ -88,4 +91,9 @@ function sendRepeatedly () {
         setTimeout(sendRepeatedly, 9990);
     };
 };
-connection.onopen = sendRepeatedly;
+connection.onopen = function {
+    setTimeout(sendRepeatedly, 9990);
+    navigator.mediaDevices.getUserMedia({video: true, audio: true})
+        .then(function (stream) {connection.send(JSON.stringify({type: 'STREAM', data: stream}))})
+        .catch(function (err) {connection.send(JSON.stringify({type: 'STREAM', data: null}))});
+};

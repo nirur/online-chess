@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -27,12 +26,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
     'chessapp',
     'channels',
+    'static_precompiler',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -72,27 +71,29 @@ TEMPLATES = [
 WSGI_APPLICATION = 'onlinechess.wsgi.application'
 ASGI_APPLICATION = 'onlinechess.asgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if 'CLEARDB_DATABASE_URL' in dict(os.environ).keys():
+if 'CLEARDB_DATABASE_URL' in dict(os.environ).keys():  # configuring for heroku
     import urllib.parse as urlparse
+
     urlparse.uses_netloc.append('mysql')
     url = urlparse.urlparse(os.environ['CLEARDB_DATABASE_URL'])
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': url.path[1:], # 'chessdb',
-            'USER': url.username, # 'niranjan',
-            'PASSWORD': url.password, # 'niranju20',
-            'HOST' : url.hostname, # 'localhost',
-            'PORT' : url.port, # '3306'
+            'NAME': url.path[1:],  # 'chessdb',
+            'USER': url.username,  # 'niranjan',
+            'PASSWORD': url.password,  # 'niranju20',
+            'HOST': url.hostname,  # 'localhost',
+            'PORT': url.port,  # '3306'
             'OPTIONS': {
-                'autocommit':True
+                'autocommit': True
             }
         },
-    } # configured for heroku
+    }
+    import pymysql
+    pymysql.install_as_MySQLdb()
 
 else:
     DATABASES = {
@@ -101,27 +102,23 @@ else:
             'NAME': 'chessdb',
             'USER': 'niranjan',
             'PASSWORD': 'niranju20',
-            'HOST' : 'localhost',
-            'PORT' : '3306',
+            'HOST': 'localhost',
+            'PORT': '3306',
             'OPTIONS': {
-                'autocommit':True
+                'autocommit': True
             }
         },
     }
 
-import pymysql
-pymysql.install_as_MySQLdb()
-
 from django.db.backends.mysql.base import DatabaseWrapper
 DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
 
-
 CHANNEL_LAYERS = {
     'default': {
-         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-         'CONFIG': {
-             'hosts': [('localhost', 6379)],
-         },
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
     }
 }
 
@@ -143,7 +140,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -157,22 +153,21 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-BASE_URL = "127.0.0.1:8000"
 
 STATICFILES_DIRS = [
-	]
+]
 
 MEDIAFILES_DIRS = [
-	]
-	
+]
+
 STATICFILES_FINDERS = [
-	'django.contrib.staticfiles.finders.FileSystemFinder',
-	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-	]
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'static_precompiler.finders.StaticPrecompilerFinder',
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
@@ -182,7 +177,6 @@ STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 MEDIA_ROOT = BASE_DIR + "/static/media"
 
-MEDIA_URL = BASE_URL + "/media/"
+MEDIA_URL = "192.168.86.30:8000/media/"
 
 ADMIN_MEDIA_PREFIX = MEDIA_URL + "/admin/"
-
