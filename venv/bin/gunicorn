@@ -1,4 +1,4 @@
-#!/home/django-projects/onlinechess-project-django/venv/bin/python3
+#!/home/django-projects/onlinechess-project-django/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
