@@ -169,7 +169,7 @@ STATICFILES_FINDERS = [
     'static_precompiler.finders.StaticPrecompilerFinder',
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = '/app/static/'
 
 STATIC_URL = '/static/'
 
