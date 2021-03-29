@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('white', models.CharField(default='', max_length=30)),
                 ('black', models.CharField(default='', max_length=30)),
                 ('board', models.CharField(default='Board()', max_length=100)),
-                ('moves', models.CharField(default='[]', max_length=1000)),
+                ('moves', models.CharField(default='[]', max_length=10000)),
             ],
         ),
     ]
