@@ -75,8 +75,8 @@ http {
         charset utf-8;
         client_max_body_size 75M;
 
-        location /static {
-            alias /app/static;
+        location /app/static {
+            alias /static;
         }
 
         location / {
