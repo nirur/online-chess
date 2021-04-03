@@ -7,7 +7,7 @@
     <head>
         <!-- EXTERNAL FILES -->
         <!-- Favicon.ico -->
-        <link rel="icon" href="/app{% static 'chessapp/img/chess-king.png' %}">
+        <link rel="icon" href="{% static 'chessapp/img/chess-king.png' %}">
         <!-- <link href="{% static 'global/img/favicon.png' %}" rel="icon" type="image/png"> -->
         <!-- W3.CSS -->
     	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -17,7 +17,7 @@
     	<link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Montserrat:wght@100&family=Poppins:wght@100&family=Roboto:wght@100&display=swap" rel="stylesheet">
     	<!-- Base CSS file -->
-        <link rel="stylesheet" href="/app{% static 'chessapp/css/base.styl'|compile %}">
+        <link rel="stylesheet" href="{% static 'chessapp/css/base.styl'|compile %}">
         <!-- In case the page has more external files -->
         {% block script %}
         {% endblock script %}
