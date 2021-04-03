@@ -1,4 +1,5 @@
 def when_ready(server):
-    open()
+    open('/tmp/app-initialized').close()
+
 
 bind = "unix:///tmp/nginx.socket"
