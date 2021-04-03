@@ -169,7 +169,7 @@ STATICFILES_FINDERS = [
     'static_precompiler.finders.StaticPrecompilerFinder',
 ]
 
-STATIC_ROOT = '/app/static/'
+STATIC_ROOT = '/static/'
 
 STATIC_URL = '/static/'
 
