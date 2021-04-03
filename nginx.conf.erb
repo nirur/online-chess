@@ -76,11 +76,11 @@ http {
         client_max_body_size 75M;
 
         location /static/ {
-            alias /;
+            alias /static;
         }
 
         location / {
-            try_file $uri;
+            root /app;
             proxy_pass unix:/tmp/nginx.log;
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
