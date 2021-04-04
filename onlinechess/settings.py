@@ -176,8 +176,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-MEDIA_ROOT = BASE_DIR + "/static/media"
+MEDIA_ROOT = BASE_DIR + "/media/"
 
-MEDIA_URL = "192.168.86.30:8000/media/"
+MEDIA_URL = "/media/"
 
 ADMIN_MEDIA_PREFIX = MEDIA_URL + "/admin/"
