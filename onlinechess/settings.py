@@ -159,6 +159,7 @@ USE_TZ = True
 
 
 STATICFILES_DIRS = [
+    BASE_DIR + "/COMPILED/"
 ]
 
 MEDIAFILES_DIRS = [
@@ -170,9 +171,11 @@ STATICFILES_FINDERS = [
     'static_precompiler.finders.StaticPrecompilerFinder',
 ]
 
-STATIC_ROOT = '/static/'
+STATIC_ROOT = BASE_DIR + '/static/'
 
 STATIC_URL = '/static/'
+
+STATIC_PRECOMPILER_ROOT = BASE_DIR + "/"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
