@@ -1,14 +1,15 @@
 /* Variables */
 /* Global Changes */
 html,
-html body footer * {
-  background-color: #353c3f;
-  color: #ff8d3f;
+html body footer *,
+html body footer {
+  background-color: #d5d6d2;
+  color: #756867;
 }
 html body * {
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
-  background-color: #d5d6d2;
-  color: #756867;
+  background-color: #353c3f;
+  color: #ff8d3f;
 }
 /* Header Layout */
 /* Fix for fonts due to W3.CSS */
