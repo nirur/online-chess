@@ -29,12 +29,11 @@ Homepage
             Your Games
         </h2>
     </header>
-    <p>
-        {{ no_games }}
-    </p>
-    <a href="{% url 'chessapp:new' %}">Start a new game</a>
-    </div>
-<ul class="w3-ul">
+</div>
+<p class="w3-card-2 w3-padding">
+    {{ no_games }}
+</p>
+<ul>
     {% for game_w, board_w in games_white %}
         <li class="w3-card-2">
             <a href="../play-{{ game_w.id }}">
@@ -52,6 +51,11 @@ Homepage
         </li>
     {% endfor %}
 </ul>
-
 {% endblock content %}
+
+{% block rightbar %}
+<p class="w3-card-2 w3-padding">
+    <a href="{% url 'chessapp:new' %}">Start a new game</a>
+</p>
+{% endblock rightbar %}
 
