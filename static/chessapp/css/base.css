@@ -77,6 +77,7 @@ html body main#main-content article#main-content-center-column,
 html body main#main-content aside#main-content-right-bar {
   float: left;
   margin: auto 3.5vw !important;
+  background-color: #000;
 }
 html body main#main-content section#modal-content {
   display: none;
