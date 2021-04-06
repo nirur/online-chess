@@ -32,25 +32,26 @@ Homepage
     <p>
         {{ no_games }}
     </p>
-    <ul class="w3-ul w3-card-2">
-        {% for game_w, board_w in games_white %}
-            <li>
-                <a href="../play-{{ game_w.id }}">
-                    [{{ game_w.name }}]: {{ game_w.white }} (You) vs {{ game_w.black }}
-                    {{ board_w|safe }}
-                </a>
-            </li>
-        {% endfor %}
-        {% for game_b, board_b in games_black %}
-            <li>
-                <a href="../play-{{ game_b.id }}">
-                    [{{ game_b.name }}]: {{ game_b.white }} vs {{ game_b.black }} (You)
-                    {{ board_b|safe }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
     <a href="{% url 'chessapp:new' %}">Start a new game</a>
-</div>
+    </div>
+<ul class="w3-ul">
+    {% for game_w, board_w in games_white %}
+        <li class="w3-card-2">
+            <a href="../play-{{ game_w.id }}">
+                [{{ game_w.name }}]: {{ game_w.white }} (You) vs {{ game_w.black }}
+                {{ board_w|safe }}
+            </a>
+        </li>
+    {% endfor %}
+    {% for game_b, board_b in games_black %}
+        <li class="w3-card-2">
+            <a href="../play-{{ game_b.id }}">
+                [{{ game_b.name }}]: {{ game_b.white }} vs {{ game_b.black }} (You)
+                {{ board_b|safe }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
 {% endblock content %}
 
