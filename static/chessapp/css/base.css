@@ -3,13 +3,13 @@
 html,
 html body footer *,
 html body footer {
-  background-color: #d5d6d2;
-  color: #756867;
+  background-color: #acbebe;
+  color: #4f4fef;
 }
 html body * {
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
-  background-color: #353c3f;
-  color: #ff8d3f;
+  background-color: #a01d26;
+  color: #20232a;
 }
 /* Header Layout */
 /* Fix for fonts due to W3.CSS */
@@ -41,7 +41,7 @@ html body header#top-bar div#leftheaderlink {
   top: 0;
 }
 html body header#top-bar div#leftheaderlink a {
-  color: #756867;
+  color: #4f4fef;
   text-decoration: none;
 }
 html body header#top-bar div#leftheaderlink a:link img,
