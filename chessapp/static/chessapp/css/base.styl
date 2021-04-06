@@ -9,9 +9,12 @@ html
   background-color: color-2
   color: color-1
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important
-  & body :not(footer *)
+  & body
     background-color: color-4
     color: color-3
+    & footer *
+       background-color: color-2
+       color: color-1
 
 /* Header Layout */
   /* Fix for fonts due to W3.CSS */
