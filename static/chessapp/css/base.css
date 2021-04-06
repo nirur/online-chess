@@ -4,7 +4,7 @@ html,
 html body footer *,
 html body footer {
   background-color: #acbebe;
-  color: #4f4fef;
+  color: #f4f4ef;
 }
 html body * {
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
@@ -41,7 +41,7 @@ html body header#top-bar div#leftheaderlink {
   top: 0;
 }
 html body header#top-bar div#leftheaderlink a {
-  color: #4f4fef;
+  color: #f4f4ef;
   text-decoration: none;
 }
 html body header#top-bar div#leftheaderlink a:link img,
