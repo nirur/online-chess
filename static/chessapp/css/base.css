@@ -4,12 +4,12 @@ html,
 html body footer *,
 html body footer {
   background-color: #acbebe;
-  color: #f4f4ef;
+  color: #20232a;
 }
 html body * {
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
   background-color: #a01d26;
-  color: #20232a;
+  color: #f4f4ef;
 }
 /* Header Layout */
 /* Fix for fonts due to W3.CSS */
@@ -41,7 +41,7 @@ html body header#top-bar div#leftheaderlink {
   top: 0;
 }
 html body header#top-bar div#leftheaderlink a {
-  color: #f4f4ef;
+  color: #20232a;
   text-decoration: none;
 }
 html body header#top-bar div#leftheaderlink a:link img,
