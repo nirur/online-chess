@@ -1,7 +1,7 @@
 /* Variables */
 /* Global Changes */
 html,
-html body footer {
+html body footer * {
   background-color: #353c3f;
   color: #ff8d3f;
 }
