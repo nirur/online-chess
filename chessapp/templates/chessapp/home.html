@@ -23,7 +23,7 @@ Homepage
 {% endblock mainheader %}
 
 {% block content %}
-<div class="w3-card-2">
+<div class="w3-card-2 w3-padding">
     <header>
         <h2>
             Your Games
@@ -50,13 +50,7 @@ Homepage
             </li>
         {% endfor %}
     </ul>
+    <a href="{% url 'chessapp:new' %}">Start a new game</a>
 </div>
 {% endblock content %}
-        <article>
-
-
-        </article>
-        <aside class="w3-card">
-            <a href="../new">Start a New Game</a>
-        </aside>
 

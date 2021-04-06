@@ -99,7 +99,7 @@ def home(request):
             }
     else:
         context_games = {'games_white': '', 'games_black': '',
-                         'no_games': 'No games currently. Check back later or start a new one now.'}
+                         'no_games': 'No games currently.'}
     context = {**context_games, **context_alerts}
     return render(request, 'chessapp/home.html', context)
 
