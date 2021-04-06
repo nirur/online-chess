@@ -3,8 +3,8 @@
 html body *,
 html,
 :root {
-  background-color: #ec8b5e;
-  color: #141a46;
+  background-color: #141a46;
+  color: #ec8b5e;
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
 }
 /* Header Layout */
@@ -37,7 +37,7 @@ html body header#top-bar div#leftheaderlink {
   top: 0;
 }
 html body header#top-bar div#leftheaderlink a {
-  color: #141a46;
+  color: #ec8b5e;
   text-decoration: none;
 }
 html body header#top-bar div#leftheaderlink a:link img,
