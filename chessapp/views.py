@@ -11,7 +11,7 @@ from .forms import *
 
 
 def get_choices(user):
-    '''Server-only opponent finding function'''
+    """Server-only opponent finding function"""
     opponents = []
     for group in user.groups.all():
         for opponent in group.user_set.all():
@@ -21,16 +21,18 @@ def get_choices(user):
     opponents += [('NiraoAdmin641', 'NiraoAdmin641'), ('Guest1', 'Guest1')]
     return opponents
 
+
 def login(request):
-    '''User-side login page'''
-    invalid_login=''
+    """User-side login page"""
+    invalid_login = ''
     if 'invalid' in request.GET.keys():
-        invalid_login="Invalid username or password"
-    context = {'invalid_login':invalid_login, 'form':LoginForm()}
+        invalid_login = "Invalid username or password"
+    context = {'invalid_login': invalid_login, 'form': LoginForm()}
     return render(request, 'chessapp/login.html', context)
 
+
 def submit(request):
-    '''Server-side login function'''
+    """Server-side login function"""
     form = LoginForm(request.POST)
     try:
         assert form.is_valid()
@@ -42,8 +44,9 @@ def submit(request):
     except AssertionError:
         return HttpResponseRedirect('../?invalid=')
 
+
 def game(request, game_id):
-    '''User-side game page'''
+    """User-side game page"""
     try:
         game = Game.objects.get(pk=game_id)
     except Game.DoesNotExist:
@@ -54,40 +57,55 @@ def game(request, game_id):
     elif game.black == player.username:
         flipped = True
     try:
-        lastmove=Move.from_uci(eval(game.moves)[-1])
+        lastmove = Move.from_uci(eval(game.moves)[-1])
     except IndexError:
         lastmove = None
     gameboard = svg.board(eval(game.board), flipped=flipped, lastmove=lastmove)
-    context = {'game':game, 'current_board':gameboard}
+    context = {'game': game, 'current_board': gameboard}
     return render(request, 'chessapp/play.html', context)
 
+
 def home(request):
-    '''User-side homepage'''
-    context_alerts = {"alerts":[]}
+    """User-side homepage"""
+    context_alerts = {"alerts": []}
     if 'sent' in request.GET.keys():
-        context_alerts['alerts'].append('Request Successfuly Sent!')
+        context_alerts['alerts'].append('Request Successfully Sent!')
     if 'err' in request.GET.keys():
-        context_alerts['alerts'].append('Sorry, an error occured')
+        context_alerts['alerts'].append('Sorry, an error occurred')
     try:
         user = get_user(request)
     except IndexError:
         return HttpResponseRedirect("../?invalid=")
-    games_white = []
-    games_black = []
+    main_white = []
+    main_black = []
+    boards_white = []
+    boards_black = []
     for g in Game.objects.all():
         if g.white == user.username and not g.status.startswith('finished'):
-            games_white.append(g)
+            main_white.append(g)
+            boards_white.append(svg.board(eval(g.board)))
         elif g.black == user.username and not g.status.startswith('finished'):
-            games_black.append(g)
-    if len(games_white+games_black) != 0:
-        context_games = {'games_white':games_white[::-1], 'games_black':games_black[::-1], 'no_games':''}
+            main_black.append(g)
+            boards_black.append(svg.board(eval(g.board)))
+    if len(main_white + main_black) != 0:
+        games_white = []
+        for itm in zip(main_white, boards_white):
+            games_white.append(itm)
+        games_black = []
+        for itm in zip(main_black, boards_black):
+            games_black.append(itm)
+        context_games = {
+            'games_white': reversed(games_white), 'games_black': reversed(games_black), 'no_games': ''
+            }
     else:
-        context_games = {'games_white':'', 'games_black':'', 'no_games':'No games currently. Check back later or start a new one now.'}
+        context_games = {'games_white': '', 'games_black': '',
+                         'no_games': 'No games currently. Check back later or start a new one now.'}
     context = {**context_games, **context_alerts}
     return render(request, 'chessapp/home.html', context)
 
+
 def create(request):
-    '''Server-side "New Game" page'''
+    """Server-side "New Game" page"""
     try:
         user = get_user(request)
     except:
@@ -98,32 +116,34 @@ def create(request):
         return HttpResponseRedirect('../home?err=')
     data = form.cleaned_data
     if data['side'] == "white":
-        args = {'white':user.username, 'black':request.POST['opposition']}
+        args = {'white': user.username, 'black': request.POST['opposition']}
     elif data['side'] == "black":
-        args = {'white':request.POST['opposition'], 'black':user.username}
+        args = {'white': request.POST['opposition'], 'black': user.username}
     args['name'] = data['name']
     game = Game(**args)
     game.save()
     return HttpResponseRedirect('../home?sent=')
 
+
 def new(request):
-    '''User-side "New Game" function'''
+    """User-side "New Game" function"""
     try:
         user = get_user(request)
     except:
         return HttpResponseRedirect('../?invalid=')
     form = NewgameForm()
     form.fields['opposition']._set_choices(get_choices(user))
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'chessapp/new.html', context)
 
+
 def err404(request, exception):
-    '''404 page'''
+    """404 page"""
     context = {}
     return render(request, 'chessapp/error_404.html', context)
 
+
 def err500(request):
-    '''500(internal server error) page'''
+    """500(internal server error) page"""
     context = {}
     return render(request, 'chessapp/error_500.html', context)
-
