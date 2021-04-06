@@ -1,19 +1,12 @@
 /* Variables */
 /* Global Changes */
-html {
-  background-color: #d5d6d2;
-  color: #756867;
-  font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
-}
-html body *,
-html body {
+html,
+html body footer {
   background-color: #353c3f;
   color: #ff8d3f;
 }
-html body * footer,
-html body footer,
-html body * footer *,
-html body footer * {
+html body * {
+  font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
   background-color: #d5d6d2;
   color: #756867;
 }

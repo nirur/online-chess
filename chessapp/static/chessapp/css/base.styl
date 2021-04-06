@@ -5,16 +5,13 @@ color-3 = #FF8D3F
 color-4 = #353C3F
 
 /* Global Changes */
-html
+html, html body footer
+  background-color: color-4
+  color: color-3
+html body *
+  font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important
   background-color: color-2
   color: color-1
-  font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important
-  & body *, & body
-    background-color: color-4
-    color: color-3
-    & footer, & footer *
-       background-color: color-2
-       color: color-1
 
 /* Header Layout */
   /* Fix for fonts due to W3.CSS */
