@@ -5,7 +5,7 @@ html {
   color: #756867;
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
 }
-html body * {
+html body:not(footer) {
   background-color: #353c3f;
   color: #ff8d3f;
 }
