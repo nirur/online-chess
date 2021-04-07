@@ -6,7 +6,7 @@ from django.contrib.auth import login as auth_login, logout as auth_logout, auth
 
 from chess import svg, Board, Move
 
-from .models import Game
+from .models import Game, Request
 from .forms import *
 
 
@@ -100,6 +100,7 @@ def home(request):
     else:
         context_games = {'games_white': '', 'games_black': '',
                          'no_games': 'No games currently.'}
+
     context = {**context_games, **context_alerts}
     return render(request, 'chessapp/home.html', context)
 
@@ -120,8 +121,10 @@ def create(request):
     elif data['side'] == "black":
         args = {'white': request.POST['opposition'], 'black': user.username}
     args['name'] = data['name']
-    game = Game(**args)
-    game.save()
+    args['sender'] = user.username
+    args['receiver'] = request.POST['opposition']
+    req = Request(**args)
+    req.save()
     return HttpResponseRedirect('../home?sent=')
 
 
@@ -135,6 +138,10 @@ def new(request):
     form.fields['opposition']._set_choices(get_choices(user))
     context = {'form': form}
     return render(request, 'chessapp/new.html', context)
+
+
+def accept(request):
+    pass
 
 
 def err404(request, exception):
