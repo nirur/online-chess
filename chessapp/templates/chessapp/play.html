@@ -5,7 +5,7 @@
 
 <!-- Javascript -->
 {% block script %}
-<!-- Board Updating -->
+<!-- Board Updating and Server Connection -->
 <script src="{% static 'chessapp/js/game-update.js' %}"></script>
 <!-- Opponent Video/Audio Connection -->
 <script id="WebRTC"></script>
@@ -15,18 +15,21 @@
 {% block metatitle %}Play Chess{% endblock metatitle %}
 {% block mainheader %}{{ game }}{% endblock mainheader %}
 
+
 <!-- Modal Content -->
 {% block modal %}
-<div id='modal' style='display:none'>
+<div id='modal'>
     <div>
         Game Over!
     </div>
-    <div id="modal-aftercontent" style="display:none">
+    <div id="modal-reason"></div>
+    <div>
         <button onclick="connection.send(JSON.stringify({type:'POSTGAME', data:'delete'}))">Delete</button>
         <button onclick="connection.send(JSON.stringify({type:'POSTGAME', data:'save'}))">Save</button>
     </div>
 </div>
 {% endblock modal %}
+
 
 <!-- Center Content -->
 {% block content %}

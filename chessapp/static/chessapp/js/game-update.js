@@ -11,8 +11,7 @@ function redrawSVG(board_str) {
 var connection = new WebSocket('ws://'+window.location.hostname+':8000/ws/1');
 
 // Add event listeners for when a move is processed by server and heartbeats from server
-// Heartbeats are required, since the connection enters an 'inactive' state
-// after 10 secs
+// Heartbeats are required, since the connection enters an 'inactive' state after 10 secs
 connection.onmessage = function (rawdata) {
     data = JSON.parse(rawdata.data);
     switch (data['type']) {
@@ -24,11 +23,10 @@ connection.onmessage = function (rawdata) {
             break;
         case 'GAMEOVER':
             redrawSVG(data['data'][1]);
-            let mainmodal = document.getElementById('modal');
-            mainmodal.innerHTML += data['data'][0];
-            mainmodal.style.display = 'block';
-            aftermodaltext = document.getElementById('modal-aftercontent').innerHTML;
-            mainmodal.innerHTML += aftermodaltext;
+            let reason = document.getElementById('modal-reason');
+            reason.innerHTML += data['data'][0];
+            let modal = document.getElementById('modal');
+            modal.style.display = 'block';
             break;
         case 'STREAM':
             document.getElementById('cam').srcObj = data['data'];

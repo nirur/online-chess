@@ -1,2 +1,7 @@
 /* WebRTC player-opponent video call connection */
-/* BLAH BLAH BLAH */
+/*
+var stream = null;
+        navigator.getUserMedia({video:true, audio:true},
+            function(gotStream){stream=gotStream},
+            function(err){console.log(err)});
+*/
