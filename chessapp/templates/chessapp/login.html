@@ -15,7 +15,7 @@ Login
 {% endblock mainheader %}
 
 {% block modal %}
-<div class="w3-modal">
+<div class="w3-modal" style="display: block">
 <div class="w3-modal-content">
     <form class="w3-container" method="post" action="{% url 'chessapp:submit' %}">
         {% csrf_token %}
