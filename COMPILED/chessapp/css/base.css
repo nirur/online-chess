@@ -81,6 +81,4 @@ html body main#main-content aside#main-content-right-bar {
 }
 html body main#main-content section#modal-content {
   display: none;
-  z-index: 1;
-  background-color: rgba(0,0,0,0.533);
 }
