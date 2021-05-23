@@ -79,6 +79,3 @@ html body main#main-content aside#main-content-right-bar {
   margin: auto 3.5vw !important;
   background-color: #acbebe;
 }
-html body main#main-content section#modal-content {
-  display: none;
-}
