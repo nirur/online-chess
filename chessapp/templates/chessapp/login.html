@@ -23,13 +23,11 @@ Login
         <div class="fieldWrapper">
             {{ form.username.errors }}
             <label for="{{ form.username.id_for_label }}">Username:</label>
-            <br>
             {{ form.username }}
         </div>
         <div class="fieldWrapper">
             {{ form.password.errors }}
             <label for="{{ form.password.id_for_label }}">Password:</label>
-            <br>
             {{ form.password }}
         </div>
         <input type="submit" value="login" id="submit" class="w3-btn w3-orange w3-round w3-margin">
@@ -41,7 +39,6 @@ Login
            	};
     </script>
     <div class="w3-container">{{ invalid_login }}</div>
-    <br>
     <div class="w3-orange formfooter w3-padding-small">Member of the staff? Click
         <a href="/staff">
             <button class="w3-btn w3-round w3-deep-orange">here</button>
