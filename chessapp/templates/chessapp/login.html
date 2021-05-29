@@ -16,7 +16,7 @@ Login
 
 {% block modal %}
 <div class="w3-modal" style="display: block">
-<div class="w3-modal-content w3-content w3-card-2">
+<div class="w3-modal-content w3-padding w3-card-2">
     <form class="w3-container" method="post" action="{% url 'chessapp:submit' %}">
         {% csrf_token %}
         {{ form.non_field_errors }}
