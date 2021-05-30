@@ -56,26 +56,3 @@ html body header#top-bar div#leftheaderlink a:active img {
   background-color: initial;
   filter: grayscale(100%) brightness(0);
 }
-html body header#top-bar div#leftheaderlink .hover-text {
-  display: none;
-}
-html body header#top-bar div#leftheaderlink:hover .hover-text {
-  display: inline;
-}
-/* Content Layout */
-html body main#main-content {
-  background-color: #fff;
-}
-html body main#main-content article#main-content-center-column {
-  width: calc(84vw - 528px);
-  padding: 0;
-}
-html body main#main-content aside#main-content-right-bar {
-  width: 528px;
-}
-html body main#main-content article#main-content-center-column,
-html body main#main-content aside#main-content-right-bar {
-  float: left;
-  margin: auto 3.5vw !important;
-  background-color: #acbebe;
-}

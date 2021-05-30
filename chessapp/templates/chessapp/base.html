@@ -37,13 +37,13 @@
     <body>
 
         <!-- Header/Top Bar -->
-        <header class="w3-card-4 w3-center"  id="top-bar">
+        <header class="w3-card-4 w3-center w3-stretch"  id="top-bar">
             {% block possiblelink %}
-                <div id="leftheaderlink">
+                <div id="leftheaderlink" class="w3-tooltip">
                     <a href="{% url 'chessapp:home' %}">
                         <img src="{% static 'chessapp/img/exit.png' %}">
                     </a>
-                    <span class="hover-text">Exit to Home Page</span>
+                    <span class="w3-text">Exit to Home Page</span>
                 </div>
             {% endblock possiblelink %}
             <div id="mainheader">
@@ -58,23 +58,32 @@
         <!-- Main Content -->
         <main class="" id="main-content">
 
-            <!-- Modal Content -->
-            <section id="modal-content">
-            {% block modal %}
-            {% endblock modal %}
+            <!-- Single Content -->
+            <section id="only-content">
+            {% block only %}
+            {% endblock only %}
             </section>
 
-            <!-- Center Content -->
-            <article id="main-content-center-column" class="w3-section">
-            {% block content %}
-            {% endblock content %}
-            </article>
+            <!-- Multi-Column Layout -->
+            <section id="column-layout" style="margin: 0 16px 0 16px">
+                <div class="w3-row-padding">
 
-            <!-- Right Bar Content -->
-            <aside id="main-content-right-bar" class="w3-section">
-            {% block rightbar %}
-            {% endblock rightbar %}
-            </aside>
+                    <!-- Center Content -->
+                    <article id="main-content-center-column" class="w3-twothird">
+                    {% block content %}
+                    {% endblock content %}
+                    </article>
+
+                    <!-- Middle Margin -->
+                    <div style="width: 16px; height: 0"></div>
+
+                    <!-- Right Bar Content -->
+                    <aside id="main-content-right-bar" class="w3-third">
+                    {% block rightbar %}
+                    {% endblock rightbar %}
+                    </aside>
+                </div>
+            </section>
         </main>
 
         <!-- Footer -->
