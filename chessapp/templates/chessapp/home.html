@@ -35,9 +35,9 @@ Homepage
         {{ no_games }}
     </div>
 </p>
-<ul>
+<ul style="list-style-type: none; padding-left: 0">
     {% for game_w, board_w in games_white %}
-        <li class="w3-card-2">
+        <li class="w3-card-2 w3-padding">
             <a href="../play-{{ game_w.id }}">
                 [{{ game_w.name }}]: {{ game_w.white }} (You) vs {{ game_w.black }}
                 {{ board_w|safe }}
@@ -45,7 +45,7 @@ Homepage
         </li>
     {% endfor %}
     {% for game_b, board_b in games_black %}
-        <li class="w3-card-2">
+        <li class="w3-card-2 w3-padding">
             <a href="../play-{{ game_b.id }}">
                 [{{ game_b.name }}]: {{ game_b.white }} vs {{ game_b.black }} (You)
                 {{ board_b|safe }}
