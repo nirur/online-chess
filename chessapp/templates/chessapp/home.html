@@ -23,14 +23,14 @@ Homepage
 {% endblock mainheader %}
 
 {% block content %}
-<div class="w3-card-2 w3-padding">
+<div class="w3-padding">
     <header>
         <h2>
             Your Games
         </h2>
     </header>
 </div>
-<p class="w3-card-2 w3-padding">
+<p class="w3-padding">
     {{ no_games }}
 </p>
 <ul>
@@ -54,7 +54,7 @@ Homepage
 {% endblock content %}
 
 {% block rightbar %}
-<div class="w3-card-2 w3-padding">
+<div class="w3-padding">
     <a href="{% url 'chessapp:new' %}">Start a new game</a>
 </div>
 {% endblock rightbar %}
