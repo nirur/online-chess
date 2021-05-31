@@ -1,12 +1,12 @@
 /* Variables */
 /* Global Changes */
-html,
-html body {
+html {
   background-color: #acbebe;
   color: #20232a;
 }
 section#only-content *,
-section#column-layout > :not(div) * {
+section#column-layout > :not(div) *,
+header {
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
   background-color: #a01d26;
   color: #f4f4ef;
