@@ -30,8 +30,10 @@ Homepage
         </h2>
     </header>
 </div>
-<p class="w3-padding" style="height: 0">
-    {{ no_games }}
+<p style="height: 0">
+    <div class="w3-padding">
+        {{ no_games }}
+    </div>
 </p>
 <ul>
     {% for game_w, board_w in games_white %}
