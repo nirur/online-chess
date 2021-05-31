@@ -89,7 +89,7 @@ function sendRepeatedly () {
         setTimeout(sendRepeatedly, 9990);
     };
 };
-connection.onopen = function {
+connection.onopen = function () {
     setTimeout(sendRepeatedly, 9990);
     navigator.mediaDevices.getUserMedia({video: true, audio: true})
         .then(function (stream) {connection.send(JSON.stringify({type: 'STREAM', data: stream}))})
