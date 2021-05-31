@@ -37,20 +37,18 @@
     <body>
 
         <!-- Header/Top Bar -->
-        <header class="w3-card-4 w3-center w3-stretch"  id="top-bar">
+        <header class="w3-card-4 w3-center w3-stretch w3-row" id="top-bar">
             {% block possiblelink %}
-                <div id="leftheaderlink" class="w3-tooltip">
+                <div id="leftheaderlink" class="w3-tooltip w3-col" style="inline">
                     <a href="{% url 'chessapp:home' %}">
                         <img src="{% static 'chessapp/img/exit.png' %}">
                     </a>
                     <span class="w3-text">Exit to Home Page</span>
                 </div>
             {% endblock possiblelink %}
-            <div id="mainheader">
-                <h1>
-                    {% block mainheader %}
-                    {% endblock mainheader %}
-                </h1>
+            <div class="w3-rest" style="text-align: center">
+                {% block mainheader %}
+                {% endblock mainheader %}
             </div>
         </header>
 
