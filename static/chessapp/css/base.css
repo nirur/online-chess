@@ -6,7 +6,7 @@ html body {
   color: #20232a;
 }
 section#only-content *,
-section#column-layout > :not(div) {
+section#column-layout > :not(div) * {
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
   background-color: #a01d26;
   color: #f4f4ef;
