@@ -96,7 +96,7 @@ def home(request):
             games_black.append(itm)
         context_games = {
             'games_white': reversed(games_white), 'games_black': reversed(games_black), 'no_games': ''
-            }
+        }
     else:
         context_games = {'games_white': '', 'games_black': '',
                          'no_games': 'No games currently.'}
@@ -141,7 +141,9 @@ def new(request):
 
 
 def accept(request):
-    pass
+    """Server-side "accept a request" function"""
+    req = Request.objects.get(pk=request.POST['id'])
+    Game(name=req.name, white=req.white, black=req.black)
 
 
 def err404(request, exception):
