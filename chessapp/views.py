@@ -104,6 +104,8 @@ def home(request):
     reqs_senders = []
     reqs_names = []
     for r in Request.objects.all():
+        print(r.receiver, type(r.receiver))
+        print(user.username, type(user.username))
         print(r.receiver == user.username)
         if r.receiver == user.username:
             print("hi")
@@ -111,7 +113,6 @@ def home(request):
             reqs_senders.append(r.sender)
             reqs_names.append(r.name)
     reqs = [itm for itm in zip(reqs_ids, reqs_names, reqs_senders)]
-    print(reqs)
     context = {**context_games, **context_alerts, "requests": reqs}
     return render(request, 'chessapp/home.html', context)
 
