@@ -62,7 +62,7 @@ Homepage
         Request from {{ sender }}: invitation to play in {{ name }}
         <form action="accept" method="POST">
             {% csrf_token %}
-            <input type="hidden" id="id" value="{{ id }}">
+            <input type="hidden" name="id" value="{{ id }}">
             <input type="submit" value="accept" class="w3-input">
         </form>
     </div>
