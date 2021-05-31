@@ -69,7 +69,7 @@ def home(request):
     """User-side homepage"""
     context_alerts = {"alerts": []}
     if 'sent' in request.GET.keys():
-        context_alerts['alerts'].append('Request Successfully Sent!')
+        context_alerts['alerts'].append('Action successful!')
     if 'err' in request.GET.keys():
         context_alerts['alerts'].append('Sorry, an error occurred')
     try:
@@ -153,6 +153,7 @@ def accept(request):
     req = Request.objects.get(pk=request.POST['id'])
     g = Game(name=req.name, white=req.white, black=req.black)
     g.save()
+    return HttpResponseRedirect("../home?sent=")
 
 
 def err404(request, exception):
