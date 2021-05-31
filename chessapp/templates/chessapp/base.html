@@ -60,29 +60,27 @@
 
             <!-- Single Content -->
             <section id="only-content">
-            {% block only %}
-            {% endblock only %}
+                {% block only %}
+                {% endblock only %}
             </section>
 
             <!-- Multi-Column Layout -->
-            <section id="column-layout" style="margin: 0 16px 0 16px">
-                <div class="w3-row-padding">
+            <section id="column-layout" style="margin: 0 16px 0 16px" class="w3-row">
 
-                    <!-- Center Content -->
-                    <article id="main-content-center-column" class="w3-twothird">
+                <!-- Center Content -->
+                <article id="main-content-center-column" class="w3-twothird">
                     {% block content %}
                     {% endblock content %}
-                    </article>
+                </article>
 
-                    <!-- Middle Margin -->
-                    <div style="width: 16px; height: 0"></div>
+                <!-- Middle Margin -->
+                <div style="width: 16px; height: 0"></div>
 
-                    <!-- Right Bar Content -->
-                    <aside id="main-content-right-bar" class="w3-third">
+                <!-- Right Bar Content -->
+                <aside id="main-content-right-bar" class="w3-third">
                     {% block rightbar %}
                     {% endblock rightbar %}
-                    </aside>
-                </div>
+                </aside>
             </section>
         </main>
 

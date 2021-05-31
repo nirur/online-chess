@@ -5,21 +5,21 @@ color-3 = #F4F4EF
 color-4 = #A01D26
 
 /* Global Changes */
-html, html body footer *, html body footer
+html, html body
   background-color: color-2
   color: color-1
-html body *
+section#only-content *, section#column-layout > :not(div)
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important
   background-color: color-4
   color: color-3
 
 /* Header Layout */
-  /* Fix for fonts due to W3.CSS */
+/* Fix for fonts due to W3.CSS */
 h1, h2, h3, h4, h5, h6
   font-family: inherit
   font-weight: 300
 
-  /* Main Layouts */
+/* Main Header Layouts */
 html body header#top-bar
   position: sticky
   top: 0
@@ -36,13 +36,3 @@ html body header#top-bar
     & a
       color: color-1
       text-decoration: none
-    & a:link, & a:visited
-      & img
-        color: initial
-        background-color: initial
-        filter: saturate(0.82) brightness(0.56)
-    & a:hover, & a:active
-      & img
-        color: initial
-        background-color: initial
-        filter: grayscale(100%) brightness(0)

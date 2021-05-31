@@ -1,12 +1,12 @@
 /* Variables */
 /* Global Changes */
 html,
-html body footer *,
-html body footer {
+html body {
   background-color: #acbebe;
   color: #20232a;
 }
-html body * {
+section#only-content *,
+section#column-layout > :not(div) {
   font-family: 'Roboto', 'Lato', 'Poppins', 'Montserrat' !important;
   background-color: #a01d26;
   color: #f4f4ef;
@@ -21,8 +21,8 @@ h5,
 h6 {
   font-family: inherit;
   font-weight: 300;
-/* Main Layouts */
 }
+/* Main Header Layouts */
 html body header#top-bar {
   position: sticky;
   top: 0;
@@ -43,16 +43,4 @@ html body header#top-bar div#leftheaderlink {
 html body header#top-bar div#leftheaderlink a {
   color: #20232a;
   text-decoration: none;
-}
-html body header#top-bar div#leftheaderlink a:link img,
-html body header#top-bar div#leftheaderlink a:visited img {
-  color: initial;
-  background-color: initial;
-  filter: saturate(0.82) brightness(0.56);
-}
-html body header#top-bar div#leftheaderlink a:hover img,
-html body header#top-bar div#leftheaderlink a:active img {
-  color: initial;
-  background-color: initial;
-  filter: grayscale(100%) brightness(0);
 }
