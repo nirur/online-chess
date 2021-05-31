@@ -30,7 +30,7 @@ Homepage
         </h2>
     </header>
 </div>
-<p class="w3-padding">
+<p class="w3-padding" style="height: 0">
     {{ no_games }}
 </p>
 <ul>
@@ -57,7 +57,6 @@ Homepage
 <div class="w3-padding">
     <a href="{% url 'chessapp:new' %}">Start a new game</a>
 </div>
-{{ requests }}
 {% for identification, sender, name in requests %}
     <div class="w3-padding w3-section">
         Request from {{ sender }}: invitation to play in {{ name }}
