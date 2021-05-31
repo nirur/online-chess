@@ -15,9 +15,9 @@ def get_choices(user):
     opponents = []
     for group in user.groups.all():
         for opponent in group.user_set.all():
-            if (opponent is not user) and (opponent not in opponents):
-                opponents.append(opponent)
-    opponents = [(opponent.username, opponent.username) for opponent in opponents]
+            if (opponent.username != user.username) and (opponent.username not in opponents):
+                opponents.append(opponent.username)
+    opponents = [(opponent, opponent) for opponent in opponents]
     opponents += [('NiraoAdmin641', 'NiraoAdmin641'), ('Guest1', 'Guest1')]
     return opponents
 
@@ -100,8 +100,16 @@ def home(request):
     else:
         context_games = {'games_white': '', 'games_black': '',
                          'no_games': 'No games currently.'}
-
-    context = {**context_games, **context_alerts}
+    reqs_ids = []
+    reqs_senders = []
+    reqs_names = []
+    for r in Request.objects.all():
+        if r.receiver == user.username():
+            reqs_ids.append(id(r))
+            reqs_senders.append(r.sender)
+            reqs_names.append(r.name)
+    reqs = [itm for itm in zip(reqs_ids, reqs_names, reqs_senders)]
+    context = {**context_games, **context_alerts, "requests": reqs}
     return render(request, 'chessapp/home.html', context)
 
 
@@ -143,7 +151,8 @@ def new(request):
 def accept(request):
     """Server-side "accept a request" function"""
     req = Request.objects.get(pk=request.POST['id'])
-    Game(name=req.name, white=req.white, black=req.black)
+    g = Game(name=req.name, white=req.white, black=req.black)
+    g.save()
 
 
 def err404(request, exception):
