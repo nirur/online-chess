@@ -57,12 +57,13 @@ Homepage
 <div class="w3-padding">
     <a href="{% url 'chessapp:new' %}">Start a new game</a>
 </div>
-{% for id, sender, name in requests %}
+{{ requests }}
+{% for identification, sender, name in requests %}
     <div class="w3-padding w3-section">
         Request from {{ sender }}: invitation to play in {{ name }}
         <form action="accept" method="POST">
             {% csrf_token %}
-            <input type="hidden" name="id" id="id" for="id" value="{{ id }}">
+            <input type="hidden" name="id" id="id" for="id" value="{{ identification }}">
             <input type="submit" value="accept" class="w3-input">
         </form>
     </div>
