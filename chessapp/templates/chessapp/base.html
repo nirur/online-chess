@@ -67,7 +67,7 @@
             <!-- Multi-Column Layout -->
             <section id="column-layout" style="margin: 0 16px 0 16px" class="w3-row">
                 <!-- Center Content -->
-                <article id="main-content-center-column" class="w3-col" style="width: calc(66.6% - 8px)">
+                <article id="main-content-center-column" class="w3-twothird">
                     {% block content %}
                     {% endblock content %}
                 </article>
@@ -76,7 +76,7 @@
                 <div class="w3-col" style="width: 16px">&#x2800;</div>
 
                 <!-- Right Bar Content -->
-                <aside id="main-content-right-bar" class="w3-col" style="width: calc(33.3% - 8px)">
+                <aside id="main-content-right-bar" class="w3-rest">
                     {% block rightbar %}
                     {% endblock rightbar %}
                 </aside>
