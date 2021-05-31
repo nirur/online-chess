@@ -104,6 +104,7 @@ def home(request):
     reqs_senders = []
     reqs_names = []
     for r in Request.objects.all():
+        print(", ".join([r, r.id, r.sender, r.reciever, user.username]))
         if r.receiver == user.username:
             reqs_ids.append(id(r))
             reqs_senders.append(r.sender)
