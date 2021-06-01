@@ -5,6 +5,9 @@
 
 <!-- Javascript -->
 {% block script %}
+<script>
+    var gameIdFromURL = window.location.pathname.slice(6)
+</script>
 <!-- Board Updating and Server Connection -->
 <script src="{% static 'chessapp/js/game-update.js' %}"></script>
 <!-- Opponent Video/Audio Connection -->
@@ -17,8 +20,8 @@
 
 
 <!-- Modal Content -->
-{% block modal %}
-<div id='modal'>
+{% block only %}
+<div id='modal' style="display: none">
     <div>
         Game Over!
     </div>
@@ -28,13 +31,13 @@
         <button onclick="connection.send(JSON.stringify({type:'POSTGAME', data:'save'}))">Save</button>
     </div>
 </div>
-{% endblock modal %}
+{% endblock only %}
 
 
 <!-- Center Content -->
 {% block content %}
 <div id="svgContainer" class="w3-card-4" style="height: 56vw"></div>
-<script id="svgStart">
+<script id="start">
     redrawSVG('{{ current_board|safe }}');
 </script>
 {% endblock content %}

@@ -8,7 +8,7 @@ function redrawSVG(board_str) {
 };
 
 // Initialize the connection to server
-var connection = new WebSocket('wss://'+window.location.hostname+'/ws/1');
+var connection = new WebSocket('wss://'+window.location.hostname+'/ws/'+gameIdFromURL);
 
 // Add event listeners for when a move is processed by server and heartbeats from server
 // Heartbeats are required, since the connection enters an 'inactive' state after 10 secs
