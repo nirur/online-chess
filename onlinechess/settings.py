@@ -24,7 +24,7 @@ SECRET_KEY = 'n3x*q96037n4m*lyv$@@!pq46$nbg9u+%dfx(r1dybrrcl6s%8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'redis', 'onlinechess1.herokuapp.com']
 
 # Application definition
 
