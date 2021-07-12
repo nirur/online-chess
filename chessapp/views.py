@@ -95,11 +95,9 @@ def home(request):
         for itm in zip(main_black, boards_black):
             games_black.append(itm)
         context_games = {
-            'games_white': reversed(games_white), 'games_black': reversed(games_black), 'no_games': ''
-        }
+            'games_white': reversed(games_white), 'games_black': reversed(games_black)}
     else:
-        context_games = {'games_white': '', 'games_black': '',
-                         'no_games': 'No games currently.'}
+        context_games = {'games_white': '', 'games_black': ''}
     reqs_ids = []
     reqs_senders = []
     reqs_names = []

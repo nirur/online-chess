@@ -21,6 +21,7 @@
 
 <!-- Modal Content -->
 {% block only %}
+<!--
 <div id='modal' style="display: none">
     <div>
         Game Over!
@@ -31,6 +32,7 @@
         <button onclick="connection.send(JSON.stringify({type:'POSTGAME', data:'save'}))">Save</button>
     </div>
 </div>
+-->
 {% endblock only %}
 
 
@@ -44,6 +46,7 @@
 
 <!-- Right Bar Content -->
 {% block rightbar %}
+<!--
 <div class="w3-card-4 w3-section" id="call">
     <video autoplay playsinline id="cam" style="display: inline-block; width: 528px; height: 297px"></video>
     <audio id="opponentSound" preload="auto" autoplay></audio>
@@ -51,6 +54,7 @@
 <div class="w3-card-4 w3-section w3-padding" id="match-history">
     Learn your history
 </div>
+-->
 <div class="w3-card-4 w3-section w3-padding" id="info">
     <img src="{% static 'chessapp/img/information.png' %}" width="16" height="16">
     <h6>Match Information</h6>
